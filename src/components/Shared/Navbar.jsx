@@ -1,5 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import './Navbar.css';
+import { useContext } from 'react';
+import { AuthContext } from '../Context/AuthProvider';
 
 const Navbar = () => {
   const links = (
@@ -21,6 +23,16 @@ const Navbar = () => {
       </NavLink>
     </>
   );
+
+  // Get user
+  const { currentUser, logout } = useContext(AuthContext);
+  const handleSignOut = () => {
+    logout().then(() => {
+      console.log('Logged out');
+    });
+  };
+
+
   return (
     <div className="navbar w-10/12 mx-auto">
       <div className="navbar-start">
@@ -59,16 +71,35 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <Link to="/login" className="hover:underline mx-4 font-bold">
-          Login
-        </Link>
-        <Link
-          to="/register"
-          className="hover:underline text-[#85be48] font-bold"
-          mx-4
-        >
-          Register
-        </Link>
+        {currentUser ? (
+          <>
+            <div className="avatar">
+              <div className="w-12 rounded-full">
+                <img src={currentUser.photoURL} />
+              </div>
+            </div>
+
+            <button
+              onClick={handleSignOut}
+              className="hover:underline mx-4 font-bold"
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="hover:underline mx-4 font-bold">
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="hover:underline text-[#85be48] font-bold"
+              mx-4
+            >
+              Register
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

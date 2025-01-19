@@ -1,33 +1,59 @@
 import Lottie from 'lottie-react';
 import loginAnime from '../../assets/login.json';
 import { FcGoogle } from 'react-icons/fc';
+import { useContext } from 'react';
+import { AuthContext } from '../Context/AuthProvider';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login = () => {
+  const { loginWithEmail, signupWithGoogle } = useContext(AuthContext);
+
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target[0].value;
     const password = e.target[1].value;
-    console.log(email, password);
-    // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    loginWithEmail(email, password)
+      .then((userCredential) => {
+        toast.success('Successfully logged in');
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        toast.error('Email or password is incorrect');
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
 
-    // if (!passwordRegex.test(password)) {
-    //   alert(
-    //     'Password must have an uppercase letter, a lowercase letter, and be at least 6 characters long.'
-    //   );
-    //   return;
-    // }
-    // e.target.reset();
+  const handleGoogle = () => {
+    signupWithGoogle()
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
   };
 
   return (
-    <div className="hero  min-h-screen">
+    <div className="hero min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse lg:gap-20">
-        <div className="flex-1 text-center lg:text-left w-60  lg:w-[600px]">
+        {/* Lottie Animation */}
+        <div className="flex-1 text-center lg:text-left w-60 lg:w-[600px]">
           <Lottie animationData={loginAnime}></Lottie>
         </div>
+
+        {/* Login Form */}
         <div className="flex-1 card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <form onSubmit={handleLogin} className="card-body">
             <h1 className="text-5xl font-bold mb-10">Login now!</h1>
+
+            {/* Email Input */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -39,6 +65,8 @@ const Login = () => {
                 required
               />
             </div>
+
+            {/* Password Input */}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
@@ -55,18 +83,36 @@ const Login = () => {
                 </a>
               </label>
             </div>
+
+            {/* Login Button */}
             <div className="form-control mt-6">
               <button className="btn bg-[#8fbf5b] text-white hover:text-black">
                 Login
               </button>
             </div>
+
+            {/* Divider and Google Login */}
             <div className="divider">OR</div>
             <div className="form-control">
-              <button className="btn btn-outline border-[#8fbf5b] text-[#8fbf5b] text-base">
+              <button
+                onClick={handleGoogle}
+                className="btn btn-outline border-[#8fbf5b] text-[#8fbf5b] text-base"
+              >
                 <FcGoogle className="text-xl" />
                 Login with Google
               </button>
             </div>
+
+            {/* Register Link */}
+            <p className="text-center mt-4 text-sm">
+              Don&apos;t have an account?{' '}
+              <Link
+                to="/register"
+                className="text-[#8fbf5b] font-bold hover:underline"
+              >
+                Register here
+              </Link>
+            </p>
           </form>
         </div>
       </div>

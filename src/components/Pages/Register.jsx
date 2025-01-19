@@ -1,8 +1,14 @@
 import Lottie from 'lottie-react';
 import registerAnime from '../../assets/register.json';
 import { FcGoogle } from 'react-icons/fc';
+import { useContext } from 'react';
+import { updateProfile } from 'firebase/auth';
+import { AuthContext } from '../Context/AuthProvider';
+import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
+  const { signupWithEmail, signupWithGoogle } = useContext(AuthContext);
   const registerHandle = (e) => {
     e.preventDefault();
     const name = e.target[0].value;
@@ -12,15 +18,47 @@ const Register = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
     if (!passwordRegex.test(password)) {
-      alert(
+      toast.error(
         'Password must have an uppercase letter, a lowercase letter, and be at least 6 characters long.'
       );
+
       return;
     }
+    signupWithEmail(email, password)
+      .then((userCredential) => {
+        toast.success('Successfully registered');
+        const user = userCredential.user;
+        updateProfile(user, {
+          displayName: name,
+          photoURL: photoURL,
+        });
+
+        console.log(user);
+      })
+      .catch((error) => {
+        toast.error('An error occurred. Please try again.');
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
 
     console.log(name, photoURL, email, password);
     e.target.reset();
   };
+
+  const handleGoogleSignup = () => {
+    signupWithGoogle()
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
+
   return (
     <div className="hero  min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse lg:gap-20">
@@ -82,15 +120,30 @@ const Register = () => {
               </button>
             </div>
             <div className="divider">OR</div>
+
             <div className="form-control">
-              <button className="btn btn-outline border-[#8fbf5b] text-[#8fbf5b] text-base">
+              <button
+                onClick={handleGoogleSignup}
+                className="btn btn-outline border-[#8fbf5b] text-[#8fbf5b] text-base"
+              >
                 <FcGoogle className="text-xl" />
                 Continue with Google
               </button>
             </div>
+
+            <p className="text-center mt-4 text-sm">
+              Have an account?{' '}
+              <Link
+                to="/login"
+                className="text-[#8fbf5b] font-bold hover:underline"
+              >
+                Log in
+              </Link>
+            </p>
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

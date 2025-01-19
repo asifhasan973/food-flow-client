@@ -9,11 +9,11 @@ const Banner = () => {
     >
       <div className="hero-overlay bg-opacity-60"></div>
       <div className="hero-content text-neutral-content text-center">
-        <div className="w-3/4">
-          <h2 className="text-2xl font-semibold text-[#a1df5f]">
+        <div className="md:w-3/4">
+          <h2 className="md:text-2xl font-semibold text-[#a1df5f]">
             HAPPY HOUR SELL
           </h2>
-          <h1 className="mb-5 text-8xl font-bold">
+          <h1 className="mb-5 text-5xl md:text-8xl font-bold">
             We Serve <span className="text-[#89b758]">Delicious </span>
             Fast Foods
           </h1>
