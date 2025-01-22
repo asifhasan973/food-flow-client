@@ -4,11 +4,13 @@ import { FcGoogle } from 'react-icons/fc';
 import { useContext } from 'react';
 import { updateProfile } from 'firebase/auth';
 import { AuthContext } from '../Context/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const Register = () => {
   const { signupWithEmail, signupWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
   const registerHandle = (e) => {
     e.preventDefault();
     const name = e.target[0].value;
@@ -26,20 +28,29 @@ const Register = () => {
     }
     signupWithEmail(email, password)
       .then((userCredential) => {
-        toast.success('Successfully registered');
         const user = userCredential.user;
         updateProfile(user, {
           displayName: name,
           photoURL: photoURL,
         });
 
-        console.log(user);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'You have been registered successfully',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate('/login');
       })
-      .catch((error) => {
-        toast.error('An error occurred. Please try again.');
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+      .catch(() => {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Something went wrong',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
 
     console.log(name, photoURL, email, password);
@@ -48,14 +59,24 @@ const Register = () => {
 
   const handleGoogleSignup = () => {
     signupWithGoogle()
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
+      .then(() => {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'You have been registered successfully',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate('/');
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+      .catch(() => {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Something went wrong',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 
@@ -137,7 +158,7 @@ const Register = () => {
                 to="/login"
                 className="text-[#8fbf5b] font-bold hover:underline"
               >
-                Log in
+                Register
               </Link>
             </p>
           </form>

@@ -2,6 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import './Navbar.css';
 import { useContext } from 'react';
 import { AuthContext } from '../Context/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
   const links = (
@@ -22,7 +23,13 @@ const Navbar = () => {
   const { currentUser, logout } = useContext(AuthContext);
   const handleSignOut = () => {
     logout().then(() => {
-      console.log('Logged out');
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'You have been logged out',
+        showConfirmButton: false,
+        timer: 1500,
+      });
     });
   };
 

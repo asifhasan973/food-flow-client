@@ -4,7 +4,8 @@ import { FcGoogle } from 'react-icons/fc';
 import { useContext } from 'react';
 import { AuthContext } from '../Context/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
+import Swal from 'sweetalert2';
 
 const Login = () => {
   const { loginWithEmail, signupWithGoogle } = useContext(AuthContext);
@@ -19,31 +20,39 @@ const Login = () => {
     const email = e.target[0].value;
     const password = e.target[1].value;
     loginWithEmail(email, password)
-      .then((userCredential) => {
-        toast.success('Successfully logged in');
-        const user = userCredential.user;
+      .then(() => {
+        Swal.fire({
+          title: 'Good job!',
+          text: 'You are logged in successfully',
+          icon: 'success',
+        });
         navigate(from);
-        console.log(user);
       })
-      .catch((error) => {
-        toast.error('Email or password is incorrect');
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+      .catch(() => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Try Again',
+          text: 'Wrong email or password',
+        });
       });
   };
 
   const handleGoogle = () => {
     signupWithGoogle()
-      .then((userCredential) => {
-        const user = userCredential.user;
+      .then(() => {
+        Swal.fire({
+          title: 'Good job!',
+          text: 'You are logged in successfully!',
+          icon: 'success',
+        });
         navigate(from);
-        console.log(user);
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+      .catch(() => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Try Again',
+          text: 'Something went wrong',
+        });
       });
   };
 
@@ -97,7 +106,8 @@ const Login = () => {
                 Login
               </button>
             </div>
-
+          </form>
+          <div className="card-body pt-0">
             {/* Divider and Google Login */}
             <div className="divider">OR</div>
             <div className="form-control">
@@ -120,7 +130,7 @@ const Login = () => {
                 Register here
               </Link>
             </p>
-          </form>
+          </div>
         </div>
       </div>
     </div>
