@@ -3,11 +3,16 @@ import loginAnime from '../../assets/login.json';
 import { FcGoogle } from 'react-icons/fc';
 import { useContext } from 'react';
 import { AuthContext } from '../Context/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Login = () => {
   const { loginWithEmail, signupWithGoogle } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  console.log(location);
+  const from = location?.state || '/';
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -17,6 +22,7 @@ const Login = () => {
       .then((userCredential) => {
         toast.success('Successfully logged in');
         const user = userCredential.user;
+        navigate(from);
         console.log(user);
       })
       .catch((error) => {
@@ -31,6 +37,7 @@ const Login = () => {
     signupWithGoogle()
       .then((userCredential) => {
         const user = userCredential.user;
+        navigate(from);
         console.log(user);
       })
       .catch((error) => {

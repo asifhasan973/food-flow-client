@@ -11,6 +11,8 @@ import Login from './components/Pages/Login.jsx';
 import Register from './components/Pages/Register.jsx';
 import { AuthProvider } from './components/Context/AuthProvider.jsx';
 import AvailableFoods from './components/Pages/AvailableFoods.jsx';
+import PrivateRoute from './components/Context/PrivateRoute.jsx';
+import FoodDetails from './components/Pages/FoodDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -24,13 +26,27 @@ const router = createBrowserRouter([
       },
       {
         path: '/AddFood',
-        element: <AddFood></AddFood>,
+        element: (
+          <PrivateRoute>
+            <AddFood></AddFood>
+          </PrivateRoute>
+        ),
       },
 
       {
-        path: '/AllFoods',
+        path: '/AvailableFoods',
         element: <AvailableFoods></AvailableFoods>,
         loader: () => fetch('http://localhost:3000/foods/'),
+      },
+      {
+        path: '/FoodDetails/:id',
+        element: (
+          <PrivateRoute>
+            <FoodDetails></FoodDetails>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/foods/${params.id}`),
       },
       {
         path: '/login',

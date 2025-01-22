@@ -1,43 +1,44 @@
-import { useState } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useState, useMemo } from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
 
 const AvailableFoods = () => {
   const originalFoods = useLoaderData();
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(6);
   const [sortOrder, setSortOrder] = useState('asc');
-  const [foods, setFoods] = useState(
-    originalFoods.filter((food) => food.foodStatus === 'available')
-  );
 
-  const handleSort = () => {
-    const sortedFoods = [...foods].sort((a, b) => {
+  const filteredFoods = useMemo(() => {
+    const filtered = originalFoods.filter(
+      (food) =>
+        (food.foodStatus === 'Available' || food.foodStatus === 'available') &&
+        food.foodName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return filtered.sort((a, b) => {
       const dateA = new Date(a.expiredDateTime);
       const dateB = new Date(b.expiredDateTime);
-
       return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
     });
+  }, [originalFoods, searchQuery, sortOrder]);
 
-    setFoods(sortedFoods);
-    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  const visibleFoods = filteredFoods.slice(0, visibleCount);
+
+  const handleSort = () => {
+    setSortOrder((prevOrder) => (prevOrder === 'asc' ? 'desc' : 'asc'));
   };
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-    const filteredFoods = originalFoods.filter(
-      (food) =>
-        food.foodStatus === 'available' &&
-        food.foodName.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setFoods(filteredFoods);
     setVisibleCount(6);
   };
 
   const handleShowMore = () => {
-    setVisibleCount((prev) => prev + 6);
+    setVisibleCount((prevCount) => prevCount + 6);
   };
 
-  const visibleFoods = foods.slice(0, visibleCount);
+  const handleShowLess = () => {
+    setVisibleCount((prevCount) => Math.max(prevCount - 6, 6));
+  };
 
   return (
     <div className="w-10/12 mx-auto mb-40 mt-20">
@@ -47,7 +48,6 @@ const AvailableFoods = () => {
 
       {/* Search and Sort Section */}
       <div className="flex justify-between items-center mb-6">
-        {/* Search Input */}
         <input
           type="text"
           value={searchQuery}
@@ -56,7 +56,6 @@ const AvailableFoods = () => {
           className="input input-bordered w-1/3"
         />
 
-        {/* Sort Button */}
         <button
           onClick={handleSort}
           className="btn hover:bg-[#89b758] hover:text-white text-[#89b758] border-[#89b758] px-6 py-2 rounded-md bg-transparent transition duration-200"
@@ -92,26 +91,37 @@ const AvailableFoods = () => {
                   <span className="font-bold">Expired Date:</span>{' '}
                   {new Date(food.expiredDateTime).toLocaleDateString()}
                 </h3>
-                <button className="btn bg-[#89b758] text-white border-0 text-lg px-10 hover:text-black">
+                <Link
+                  to={`/FoodDetails/${food._id}`}
+                  className="btn bg-[#89b758] text-white border-0 text-lg px-10 hover:text-black"
+                >
                   View Details
-                </button>
+                </Link>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Show More Button */}
-      {visibleFoods.length < foods.length && (
-        <div className="flex justify-center items-center mt-10">
+      {/* Show More and Show Less Buttons */}
+      <div className="flex justify-center items-center mt-10">
+        {visibleCount < filteredFoods.length && (
           <button
             onClick={handleShowMore}
-            className="btn bg-transparent border-[#89b758] text-[#89b758] text-xl px-10 py-2 hover:bg-[#89b758] hover:text-white"
+            className="btn bg-transparent border-[#89b758] text-[#89b758] text-xl px-10 py-2 mr-4 hover:bg-[#89b758] hover:text-white"
           >
             Show More
           </button>
-        </div>
-      )}
+        )}
+        {visibleCount > 6 && (
+          <button
+            onClick={handleShowLess}
+            className="btn bg-transparent border-[#89b758] text-[#89b758] text-xl px-10 py-2 hover:bg-[#89b758] hover:text-white"
+          >
+            Show Less
+          </button>
+        )}
+      </div>
     </div>
   );
 };

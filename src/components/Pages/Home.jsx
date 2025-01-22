@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 
 import Banner from './Banner';
 
@@ -43,9 +43,12 @@ const Home = () => {
                     <span className="font-bold">Expired Date:</span>{' '}
                     {new Date(food.expiredDateTime).toLocaleDateString()}
                   </h3>
-                  <button className="btn bg-[#89b758] text-white border-0 text-lg px-10 hover:text-black ">
+                  <Link
+                    to={`/FoodDetails/${food._id}`}
+                    className="btn bg-[#89b758] text-white border-0 text-lg px-10 hover:text-black "
+                  >
                     View Details
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

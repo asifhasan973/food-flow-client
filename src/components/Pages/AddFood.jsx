@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { AuthContext } from '../Context/AuthProvider';
 
+import Swal from 'sweetalert2';
+
 const AddFood = () => {
   const { currentUser } = useContext(AuthContext);
 
@@ -37,9 +39,20 @@ const AddFood = () => {
       },
       body: JSON.stringify(foodObj),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Your item is added!',
+          icon: 'success',
+        });
+        e.target.reset();
+      })
+      .catch(() => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
       });
   };
 
