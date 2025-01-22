@@ -7,10 +7,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './components/Pages/Home.jsx';
 import FrontPage from './components/Pages/FrontPage.jsx';
 import AddFood from './components/Pages/AddFood.jsx';
-import AvailableFoods from './components/Pages/AvailableFoods.jsx';
 import Login from './components/Pages/Login.jsx';
 import Register from './components/Pages/Register.jsx';
 import { AuthProvider } from './components/Context/AuthProvider.jsx';
+import AvailableFoods from './components/Pages/AvailableFoods.jsx';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +20,7 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home></Home>,
+        loader: () => fetch('http://localhost:3000/foods/'),
       },
       {
         path: '/AddFood',
@@ -27,8 +28,9 @@ const router = createBrowserRouter([
       },
 
       {
-        path: '/AvailableFoods',
+        path: '/AllFoods',
         element: <AvailableFoods></AvailableFoods>,
+        loader: () => fetch('http://localhost:3000/foods/'),
       },
       {
         path: '/login',

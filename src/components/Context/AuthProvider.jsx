@@ -11,7 +11,7 @@ import auth from '../Services/firebase.config';
 
 export const AuthContext = createContext(null);
 
-// Create AuthProvider component
+
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  // Track user state
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, [auth]);
 
-  // Provide authentication context values
+  
   const authInfo = {
     currentUser,
     signupWithEmail,
@@ -60,3 +60,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+

@@ -9,17 +9,11 @@ const Navbar = () => {
       <NavLink className="font-bold mx-4 text-base" to="/">
         Home
       </NavLink>
-      <NavLink className="font-bold mx-4 text-base" to="/AvailableFoods">
-        Available Foods
+      <NavLink className="font-bold mx-4 text-base" to="/AllFoods">
+        All Foods
       </NavLink>
       <NavLink className="font-bold mx-4 text-base" to="/AddFood">
         Add Food
-      </NavLink>
-      <NavLink className="font-bold mx-4 text-base" to="">
-        Home
-      </NavLink>
-      <NavLink className="font-bold mx-4 text-base" to="">
-        Home
       </NavLink>
     </>
   );
@@ -31,7 +25,6 @@ const Navbar = () => {
       console.log('Logged out');
     });
   };
-
 
   return (
     <div className="navbar w-10/12 mx-auto">
