@@ -3,13 +3,12 @@ import { useLoaderData } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const ManageFoods = () => {
-  // Use state to manage the foods data
   const loadedFoods = useLoaderData();
   const [foods, setFoods] = useState(loadedFoods);
 
+  //   delete
   const handleDelete = async (id) => {
     try {
-      // Show confirmation popup before deleting
       const result = await Swal.fire({
         title: 'Are you sure?',
         text: 'This action will permanently delete the food item.',
@@ -22,7 +21,6 @@ const ManageFoods = () => {
       });
 
       if (result.isConfirmed) {
-        // Make DELETE request to the server
         const response = await fetch(`http://localhost:3000/foods/${id}`, {
           method: 'DELETE',
         });
@@ -31,23 +29,17 @@ const ManageFoods = () => {
           throw new Error('Failed to delete food item');
         }
 
-        // Update UI by removing the deleted item from the state
         setFoods((prevFoods) => prevFoods.filter((food) => food._id !== id));
 
-        // Show success message
         Swal.fire('Deleted!', 'The food item has been deleted.', 'success');
       }
     } catch (error) {
       console.error('Error deleting food item:', error);
-
-      // Show error message
       Swal.fire('Error', 'There was an issue deleting the food item.', 'error');
     }
   };
 
   const handleUpdate = (food) => {
-    console.log(food);
-
     Swal.fire({
       title: 'Update Food Item',
       html: `
@@ -148,62 +140,70 @@ const ManageFoods = () => {
 
           {/* Table Body */}
           <tbody>
-            {foods.map((food) => (
-              <tr key={food._id} className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2">
-                  <img
-                    src={food.foodImage}
-                    alt={food.foodName}
-                    className="w-16 h-16 object-cover rounded-lg"
-                  />
-                </td>
+            {foods.length > 0 ? (
+              foods.map((food) => (
+                <tr key={food._id} className="hover:bg-gray-50">
+                  <td className="border border-gray-300 px-4 py-2">
+                    <img
+                      src={food.foodImage}
+                      alt={food.foodName}
+                      className="w-16 h-16 object-cover rounded-lg"
+                    />
+                  </td>
 
-                <td className="border border-gray-300 px-4 py-2">
-                  {food.foodName}
-                </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {food.foodName}
+                  </td>
 
-                <td className="border border-gray-300 px-4 py-2">
-                  {food.foodQuantity}
-                </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {food.foodQuantity}
+                  </td>
 
-                <td className="border border-gray-300 px-4 py-2">
-                  {food.pickupLocation}
-                </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {food.pickupLocation}
+                  </td>
 
-                {/* Food Status */}
-                <td className="border border-gray-300 px-4 py-2">
-                  <span
-                    className={`py-1 px-3 rounded-full text-sm ${
-                      food.foodStatus === 'Available'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-yellow-100 text-yellow-700'
-                    }`}
-                  >
-                    {food.foodStatus}
-                  </span>
-                </td>
-
-                <td className="border border-gray-300 px-4 py-2">
-                  <div className="flex gap-2">
-                    {/* Update Button */}
-                    <button
-                      onClick={() => handleUpdate(food)}
-                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+                  {/* Food Status */}
+                  <td className="border border-gray-300 px-4 py-2">
+                    <span
+                      className={`py-1 px-3 rounded-full text-sm ${
+                        food.foodStatus === 'Available'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-yellow-100 text-yellow-700'
+                      }`}
                     >
-                      Update
-                    </button>
+                      {food.foodStatus}
+                    </span>
+                  </td>
 
-                    {/* Delete Button */}
-                    <button
-                      onClick={() => handleDelete(food._id)}
-                      className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200"
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  <td className="border border-gray-300 px-4 py-2">
+                    <div className="flex gap-2">
+                      {/* Update Button */}
+                      <button
+                        onClick={() => handleUpdate(food)}
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+                      >
+                        Update
+                      </button>
+
+                      {/* Delete Button */}
+                      <button
+                        onClick={() => handleDelete(food._id)}
+                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-200"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center py-4">
+                  No foods available
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

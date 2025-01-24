@@ -3,7 +3,11 @@ import { Link, useLoaderData } from 'react-router-dom';
 import Banner from './Banner';
 
 const Home = () => {
-  const foods = useLoaderData();
+  const loadedFoods = useLoaderData();
+  let foods = loadedFoods.filter(
+    (food) => food.foodStatus === 'Available' || food.foodStatus === 'available'
+  );
+
   const topFoods = foods
     .sort((a, b) => b.foodQuantity - a.foodQuantity)
     .slice(0, 6);

@@ -103,6 +103,7 @@ const FoodDetails = () => {
 
         // Update the food object locally
         food.additionalNotes = additionalNotes;
+        food.requestedEmail = loggedInUserEmail;
         food.foodStatus = 'Requested';
 
         try {

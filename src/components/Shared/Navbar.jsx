@@ -24,6 +24,12 @@ const Navbar = () => {
       >
         Manage Foods
       </NavLink>
+      <NavLink
+        className="font-bold mx-4 text-base"
+        to={`/MyFoodRequest/${currentUser?.email}`}
+      >
+        Request Foods
+      </NavLink>
     </>
   );
 
