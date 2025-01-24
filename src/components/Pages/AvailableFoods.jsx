@@ -6,7 +6,7 @@ const AvailableFoods = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(6);
   const [sortOrder, setSortOrder] = useState('asc');
-
+  const [isThreeColumn, setIsThreeColumn] = useState(true);
   const filteredFoods = useMemo(() => {
     const filtered = originalFoods.filter(
       (food) =>
@@ -40,13 +40,17 @@ const AvailableFoods = () => {
     setVisibleCount((prevCount) => Math.max(prevCount - 6, 6));
   };
 
+  const toggleLayout = () => {
+    setIsThreeColumn((prevState) => !prevState);
+  };
+
   return (
     <div className="w-10/12 mx-auto mb-40 mt-20">
       <h1 className="text-center text-4xl font-bold mt-20 pb-10">
         Available Foods
       </h1>
 
-      {/* Search and Sort Section */}
+      {/* Search, Sort, and Layout Toggle Section */}
       <div className="flex justify-between items-center mb-6">
         <input
           type="text"
@@ -56,16 +60,32 @@ const AvailableFoods = () => {
           className="input input-bordered w-1/3"
         />
 
-        <button
-          onClick={handleSort}
-          className="btn hover:bg-[#89b758] hover:text-white text-[#89b758] border-[#89b758] px-6 py-2 rounded-md bg-transparent transition duration-200"
-        >
-          Sort by Date ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={handleSort}
+            className="btn hover:bg-[#89b758] hover:text-white text-[#89b758] border-[#89b758] px-6 py-2 rounded-md bg-transparent transition duration-200"
+          >
+            Sort by Date ({sortOrder === 'asc' ? 'Ascending' : 'Descending'})
+          </button>
+          <button
+            onClick={toggleLayout}
+            className="btn hover:bg-[#89b758] hover:text-white text-[#89b758] border-[#89b758] px-6 py-2 rounded-md bg-transparent transition duration-200"
+          >
+            {isThreeColumn
+              ? 'Switch to 2-Column Layout'
+              : 'Switch to 3-Column Layout'}
+          </button>
+        </div>
       </div>
 
       {/* Food Items Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div
+        className={`grid gap-10 ${
+          isThreeColumn
+            ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+            : 'grid-cols-1 md:grid-cols-2'
+        }`}
+      >
         {visibleFoods.map((food) => (
           <div key={food._id} className="">
             <div className="card card-compact bg-base-100 h-full border">
