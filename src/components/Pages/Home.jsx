@@ -15,7 +15,6 @@ const Home = () => {
   const topFoods = foods
     .sort((a, b) => b.foodQuantity - a.foodQuantity)
     .slice(0, 6);
-  console.log(topFoods);
 
   return (
     <div>

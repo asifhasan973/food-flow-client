@@ -8,7 +8,7 @@ const AddFood = () => {
 
   const handleAddFood = (e) => {
     e.preventDefault();
-    console.log('Food added');
+    
     const foodName = e.target[0].value;
     const foodImage = e.target[1].value;
     const foodQuantity = e.target[2].value;
@@ -31,7 +31,7 @@ const AddFood = () => {
       donator,
       foodStatus,
     };
-    console.log(foodObj);
+    
     fetch('http://localhost:3000/foods/', {
       method: 'POST',
       headers: {

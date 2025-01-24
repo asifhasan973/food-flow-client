@@ -4,7 +4,10 @@ const Banner = () => {
       className="hero min-h-[700px]"
       style={{
         backgroundImage:
-          'url(https://img.freepik.com/free-photo/food-mix-salad-noodles-grillea-chicken-garlic-greena-top-view_141793-15488.jpg?t=st=1737261968~exp=1737265568~hmac=7e27d043e5761c94ba626a986040dbaaf9b74e1c2b207d290c101a5af4a7074f&w=2000)',
+          'url(https://images.unsplash.com/photo-1625425753502-f5cae7bb45dd?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
+        backgroundAttachment: 'fixed',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
       }}
     >
       <div className="hero-overlay bg-opacity-60"></div>

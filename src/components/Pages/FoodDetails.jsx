@@ -123,9 +123,6 @@ const FoodDetails = () => {
             throw new Error('Failed to update food item');
           }
 
-          const data = await response.json(); // Parse response from server
-          console.log('Server Response:', data);
-
           Swal.fire('Success', 'Food item requested successfully!', 'success');
         } catch (error) {
           console.error('Error updating food item:', error);

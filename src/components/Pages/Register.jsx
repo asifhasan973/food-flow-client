@@ -53,7 +53,7 @@ const Register = () => {
         });
       });
 
-    console.log(name, photoURL, email, password);
+    
     e.target.reset();
   };
 

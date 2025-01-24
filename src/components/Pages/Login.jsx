@@ -12,7 +12,7 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log(location);
+  
   const from = location?.state || '/';
 
   const handleLogin = (e) => {

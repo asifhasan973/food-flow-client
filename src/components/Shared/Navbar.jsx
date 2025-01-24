@@ -85,7 +85,7 @@ const Navbar = () => {
       <div className="navbar-end">
         {currentUser ? (
           <>
-            <div className="avatar">
+            <div className="avatar hidden lg:flex">
               <div className="w-12 rounded-full">
                 <img src={currentUser.photoURL} />
               </div>

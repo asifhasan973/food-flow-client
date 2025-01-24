@@ -3,7 +3,7 @@ import { useLoaderData } from 'react-router-dom';
 const MyFoodRequest = () => {
   const foods = useLoaderData();
 
-  console.log(foods);
+  
 
   return (
     <div className="container mx-auto my-10 p-5">
