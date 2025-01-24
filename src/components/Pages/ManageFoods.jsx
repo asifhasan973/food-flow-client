@@ -21,9 +21,12 @@ const ManageFoods = () => {
       });
 
       if (result.isConfirmed) {
-        const response = await fetch(`http://localhost:3000/foods/${id}`, {
-          method: 'DELETE',
-        });
+        const response = await fetch(
+          `https://foodflowserver.vercel.app/foods/${id}`,
+          {
+            method: 'DELETE',
+          }
+        );
 
         if (!response.ok) {
           throw new Error('Failed to delete food item');
@@ -87,7 +90,7 @@ const ManageFoods = () => {
 
         try {
           const response = await fetch(
-            `http://localhost:3000/foods/${food._id}`,
+            `https://foodflowserver.vercel.app/foods/${food._id}`,
             {
               method: 'PUT',
               headers: {

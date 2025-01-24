@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home></Home>,
-        loader: () => fetch('http://localhost:3000/foods/'),
+        loader: () => fetch('https://foodflowserver.vercel.app/foods/'),
       },
       {
         path: '/AddFood',
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
       {
         path: '/AvailableFoods',
         element: <AvailableFoods></AvailableFoods>,
-        loader: () => fetch('http://localhost:3000/foods/'),
+        loader: () => fetch('https://foodflowserver.vercel.app/foods/'),
       },
 
       {
@@ -50,7 +50,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/foods/email/${params.email}`),
+          fetch(
+            `https://foodflowserver.vercel.app/foods/email/${params.email}`
+          ),
       },
       {
         path: '/MyFoodRequest/:email',
@@ -60,7 +62,9 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/foods/requested/${params.email}`),
+          fetch(
+            `https://foodflowserver.vercel.app/foods/requested/${params.email}`
+          ),
       },
       {
         path: '/FoodDetails/:id',
@@ -70,7 +74,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/foods/${params.id}`),
+          fetch(`https://foodflowserver.vercel.app/foods/${params.id}`),
       },
       {
         path: '/login',

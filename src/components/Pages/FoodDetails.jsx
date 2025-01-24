@@ -109,7 +109,7 @@ const FoodDetails = () => {
         try {
           // Make the PUT request to update the food item on the server
           const response = await fetch(
-            `http://localhost:3000/foods/${food._id}`,
+            `https://foodflowserver.vercel.app/foods/${food._id}`,
             {
               method: 'PUT',
               headers: {

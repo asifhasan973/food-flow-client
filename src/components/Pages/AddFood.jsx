@@ -8,7 +8,7 @@ const AddFood = () => {
 
   const handleAddFood = (e) => {
     e.preventDefault();
-    
+
     const foodName = e.target[0].value;
     const foodImage = e.target[1].value;
     const foodQuantity = e.target[2].value;
@@ -31,8 +31,8 @@ const AddFood = () => {
       donator,
       foodStatus,
     };
-    
-    fetch('http://localhost:3000/foods/', {
+
+    fetch('https://foodflowserver.vercel.app/foods/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
