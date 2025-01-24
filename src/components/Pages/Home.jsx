@@ -2,6 +2,7 @@ import { Link, useLoaderData } from 'react-router-dom';
 
 import Banner from './Banner';
 import TestimonialsSection from './TestimonialsSection';
+import HowItWorksSection from './HowItWorksSection';
 
 const Home = () => {
   const loadedFoods = useLoaderData();
@@ -69,6 +70,7 @@ const Home = () => {
         </div>
       </div>
       <TestimonialsSection></TestimonialsSection>
+      <HowItWorksSection></HowItWorksSection>
     </div>
   );
 };
