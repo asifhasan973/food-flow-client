@@ -15,6 +15,7 @@ import PrivateRoute from './components/Context/PrivateRoute.jsx';
 import FoodDetails from './components/Pages/FoodDetails.jsx';
 import ManageFoods from './components/Pages/ManageFoods.jsx';
 import MyFoodRequest from './components/Pages/MyFoodRequest.jsx';
+import ErrorPage from './components/Pages/ErrorPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register></Register>,
+      },
+      {
+        path: '*',
+        element: <ErrorPage></ErrorPage>,
       },
     ],
   },
