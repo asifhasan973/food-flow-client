@@ -4,6 +4,8 @@ import Banner from './Banner';
 import TestimonialsSection from './TestimonialsSection';
 import HowItWorksSection from './HowItWorksSection';
 
+import DiscoverDeliciousSection from './DiscoverDeliciousSection';
+
 const Home = () => {
   const loadedFoods = useLoaderData();
   let foods = loadedFoods.filter(
@@ -69,6 +71,7 @@ const Home = () => {
           </Link>
         </div>
       </div>
+      <DiscoverDeliciousSection></DiscoverDeliciousSection>
       <TestimonialsSection></TestimonialsSection>
       <HowItWorksSection></HowItWorksSection>
     </div>
