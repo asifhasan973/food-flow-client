@@ -5,6 +5,8 @@ import { AuthContext } from '../Context/AuthProvider';
 import Swal from 'sweetalert2';
 
 const Navbar = () => {
+  // Get user
+  const { currentUser, logout } = useContext(AuthContext);
   const links = (
     <>
       <NavLink className="font-bold mx-4 text-base" to="/">
@@ -16,11 +18,15 @@ const Navbar = () => {
       <NavLink className="font-bold mx-4 text-base" to="/AddFood">
         Add Food
       </NavLink>
+      <NavLink
+        className="font-bold mx-4 text-base"
+        to={`/ManageFoods/${currentUser?.email}`}
+      >
+        Manage Foods
+      </NavLink>
     </>
   );
 
-  // Get user
-  const { currentUser, logout } = useContext(AuthContext);
   const handleSignOut = () => {
     logout().then(() => {
       Swal.fire({

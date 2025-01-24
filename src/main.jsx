@@ -13,6 +13,7 @@ import { AuthProvider } from './components/Context/AuthProvider.jsx';
 import AvailableFoods from './components/Pages/AvailableFoods.jsx';
 import PrivateRoute from './components/Context/PrivateRoute.jsx';
 import FoodDetails from './components/Pages/FoodDetails.jsx';
+import ManageFoods from './components/Pages/ManageFoods.jsx';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,19 @@ const router = createBrowserRouter([
         path: '/AvailableFoods',
         element: <AvailableFoods></AvailableFoods>,
         loader: () => fetch('http://localhost:3000/foods/'),
+      },
+      {
+        path: '/ManageFoods',
+        element: <ManageFoods></ManageFoods>,
+        loader: ({ params }) => {
+          console.log(params);
+        },
+      },
+      {
+        path: '/ManageFoods/:email',
+        element: <ManageFoods></ManageFoods>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/foods/email/${params.email}`),
       },
       {
         path: '/FoodDetails/:id',

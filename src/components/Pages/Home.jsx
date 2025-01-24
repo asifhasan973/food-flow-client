@@ -54,6 +54,14 @@ const Home = () => {
             </div>
           ))}
         </div>
+        <div className="flex justify-center items-center mt-10">
+          <Link
+            to="/AvailableFoods"
+            className="btn bg-transparent border-[#89b758] text-[#89b758] text-xl px-10 py-2 mr-4 hover:bg-[#89b758] hover:text-white"
+          >
+            Show More
+          </Link>
+        </div>
       </div>
     </div>
   );
